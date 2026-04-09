@@ -19,39 +19,103 @@ interface NavLinkProps {
 
 const AnimatedNavLink = ({ href, children }: NavLinkProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const triggerRef = useRef<HTMLAnchorElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  // High-Precision Magnetic Interaction
+  useGSAP(() => {
+    const trigger = triggerRef.current;
+    const text = textRef.current;
+    if (!trigger || !text) return;
+
+    const xTo = gsap.quickTo(text, "x", { duration: 0.6, ease: "power3.out" });
+    const yTo = gsap.quickTo(text, "y", { duration: 0.6, ease: "power3.out" });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const { left, top, width, height } = trigger.getBoundingClientRect();
+      const x = (clientX - (left + width / 2)) * 0.4;
+      const y = (clientY - (top + height / 2)) * 0.4;
+      xTo(x);
+      yTo(y);
+    };
+
+    const handleMouseLeave = () => {
+      xTo(0);
+      yTo(0);
+    };
+
+    trigger.addEventListener("mousemove", handleMouseMove);
+    trigger.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      trigger.removeEventListener("mousemove", handleMouseMove);
+      trigger.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, { scope: triggerRef });
+
+  const letters = children ? children.toString().split("") : [];
 
   return (
     <a
+      ref={triggerRef}
       href={href}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex items-center h-12 overflow-hidden text-[13px] font-extrabold tracking-[0.2em] font-manrope px-8"
+      className="group relative flex items-center h-12 overflow-visible text-[13px] font-extrabold tracking-[0.2em] font-manrope px-8"
     >
-      <div className="relative">
-        <motion.span
-          animate={{
-            y: isHovered ? -24 : 0,
-            opacity: isHovered ? 0 : 0.4,
-            filter: isHovered ? 'blur(8px)' : 'blur(0px)'
-          }}
-          transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-          className="block text-white leading-none whitespace-nowrap uppercase"
-        >
-          {children}
-        </motion.span>
+      <div ref={textRef} className="relative pointer-events-none">
+        {/* Layer 0: Default Static */}
+        <div className="flex overflow-hidden">
+          {letters.map((letter, i) => (
+            <motion.span
+              key={i}
+              initial={{ y: 0 }}
+              animate={{ y: isHovered ? -24 : 0 }}
+              transition={{
+                delay: i * 0.02,
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              style={{ display: "inline-block" }}
+              className="text-white opacity-40 uppercase whitespace-pre"
+            >
+              {letter === " " ? "\u00A0" : letter}
+            </motion.span>
+          ))}
+        </div>
 
-        <motion.span
-          initial={{ y: 24, opacity: 0, filter: 'blur(8px)' }}
-          animate={{
-            y: isHovered ? 0 : 24,
-            opacity: isHovered ? 1 : 0,
-            filter: isHovered ? 'blur(0px)' : 'blur(8px)'
-          }}
-          transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-          className="absolute inset-0 flex items-center text-white leading-none whitespace-nowrap uppercase"
-        >
-          {children}
-        </motion.span>
+        {/* Layer 1: Active Character Shift */}
+        <div className="absolute inset-0 flex overflow-hidden pointer-events-none">
+          {letters.map((letter, i) => (
+            <motion.span
+              key={i}
+              initial={{ y: 24 }}
+              animate={{ y: isHovered ? 0 : 24 }}
+              transition={{
+                delay: i * 0.02,
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              style={{ display: "inline-block" }}
+              className="text-white uppercase whitespace-pre"
+            >
+              {letter === " " ? "\u00A0" : letter}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Chromatic Interference Flicker */}
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0.8, x: -2 }}
+            animate={{ opacity: 0, x: 2 }}
+            transition={{ duration: 0.15, repeat: 1, repeatType: "mirror" }}
+            className="absolute inset-0 flex text-red-500/30 blur-[1px] select-none pointer-events-none"
+          >
+            {children}
+          </motion.div>
+        )}
       </div>
     </a>
   );
