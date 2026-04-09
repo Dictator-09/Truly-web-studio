@@ -147,14 +147,8 @@ export const Navbar = ({
           {/* CTA Section (Right) */}
           <div className="flex justify-end items-center gap-8">
             <div className="flex items-center gap-4">
-              <button className="text-[11px] font-extrabold text-white/30 hover:text-white transition-all duration-300 uppercase tracking-[0.2em] font-manrope h-12 px-6">
-                Inquiry
-              </button>
-
-              <button className="relative h-12 px-16 flex items-center justify-center text-[10px] font-bold text-white border border-white/20 bg-black/40 shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-md rounded-full hover:bg-black/60 hover:text-white hover:border-white/40 transition-all duration-200 uppercase tracking-[0.2em] font-manrope overflow-hidden group/cta">
-                <span className="relative z-10 transition-colors duration-200">Contact</span>
-                {/* Micro-Interaction Shine */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/cta:animate-shine" />
+              <button className="text-[10px] font-bold text-white hover:text-white/60 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
+                Contact
               </button>
             </div>
           </div>
