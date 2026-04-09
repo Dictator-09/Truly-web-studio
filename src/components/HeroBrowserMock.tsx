@@ -47,7 +47,8 @@ const MiniSiteLayout = ({ isWireframe = false }: { isWireframe?: boolean }) => {
 export const HeroBrowserMock = () => {
   return (
     <motion.div
-      initial={{ y: 0 }}
+      initial="initial"
+      whileHover="hover"
       animate={{ y: [-10, 10] }}
       transition={{
         duration: 4,
@@ -81,8 +82,10 @@ export const HeroBrowserMock = () => {
 
         {/* Layer 1: Wireframe with Scanline Reveal */}
         <motion.div
-          initial={{ clipPath: "inset(0 0 100% 0)" }}
-          whileHover={{ clipPath: "inset(0 0 0% 0)" }}
+          variants={{
+            initial: { clipPath: "inset(0 0 100% 0)" },
+            hover: { clipPath: "inset(0 0 0% 0)" }
+          }}
           transition={{
             duration: 0.6,
             ease: [0.23, 1, 0.32, 1]
