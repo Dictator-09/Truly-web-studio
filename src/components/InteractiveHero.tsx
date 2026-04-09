@@ -59,7 +59,7 @@ export const InteractiveHero = () => {
         {/* Layer 0: Polished Studio Exterior */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/Users/pratyaksh/.gemini/antigravity/brain/7095f083-9d6f-4a79-8546-115e398c833a/hero_polished_landscape_1775751477121.png"
+            src="/hero-polished.png"
             alt="Polished Studio"
             className="w-full h-full object-cover grayscale-[0.2] contrast-110"
           />
@@ -75,7 +75,7 @@ export const InteractiveHero = () => {
           className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-500"
         >
           <img
-            src="/Users/pratyaksh/.gemini/antigravity/brain/7095f083-9d6f-4a79-8546-115e398c833a/hero_technical_blueprint_1775751587086.png"
+            src="/hero-technical.png"
             alt="Technical Blueprint"
             className="w-full h-full object-cover"
           />
