@@ -197,14 +197,14 @@ export const Navbar = ({
         )}
       >
 
-        <div className="max-w-[1440px] mx-auto grid grid-cols-3 items-center px-16 h-12 relative">
+        <div className="max-w-[1100px] mx-auto grid grid-cols-3 items-center px-10 h-12 relative">
           {/* Logo Section (Left) */}
           <div className="flex justify-start">
             <Logo />
           </div>
 
           {/* Navigation Links (Center) */}
-          <div className="flex justify-center items-center gap-16">
+          <div className="flex justify-center items-center gap-10">
             {navLinks.map((link) => (
               <AnimatedNavLink key={link.label} href={link.href}>
                 {link.label}

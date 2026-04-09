@@ -2,60 +2,49 @@
 
 import { FluidParticlesBackground } from "@/components/FluidParticlesBackground";
 import { Navbar } from "@/components/Navbar";
-import { HeroBrowserMock } from "@/components/HeroBrowserMock";
+import { InteractiveHero } from "@/components/InteractiveHero";
 import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden selection:bg-white selection:text-black">
-      <FluidParticlesBackground className="fixed inset-0 z-0 pointer-events-none" />
-      <div className="relative z-10 w-full min-h-screen">
+    <main className="relative min-h-screen bg-black overflow-x-hidden selection:bg-white selection:text-black font-inter">
+      {/* Background Layer (Subtle Dimmed Particles) */}
+      <div className="fixed inset-0 z-0">
+        <FluidParticlesBackground className="absolute inset-0 opacity-5 pointer-events-none" />
+      </div>
+      
+      <div className="relative z-10 w-full flex flex-col">
         <Navbar />
         
-        {/* Hero Section */}
-        <section className="relative w-full pt-40 pb-20 px-8">
-          <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            
-            {/* Left: Content */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex flex-col gap-8 text-left"
-            >
-              <div className="flex flex-col gap-4">
-                <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-[-0.04em] leading-[0.9] font-manrope">
-                  We Build <br />
-                  <span className="text-white/40">the Web.</span>
-                </h1>
-                <p className="max-w-md text-lg text-white/40 font-medium leading-relaxed tracking-wide font-manrope">
-                  Truly Web is a boutique digital studio architecture. We build high-precision web instruments for elite businesses that demand visual excellence.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <button className="h-14 px-10 bg-white text-black font-bold text-[11px] uppercase tracking-[0.2em] rounded-full hover:bg-zinc-200 transition-all duration-300 font-manrope">
-                  Start a Project
-                </button>
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/20">Studio_Availability</span>
-                  <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-green-500/60">Currently_Open</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right: Mockup */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-              className="flex justify-center"
-            >
-              <HeroBrowserMock />
-            </motion.div>
-
-          </div>
+        {/* Lando-Style Interactive Centerpiece */}
+        <section className="relative w-full min-h-screen flex items-center justify-center pt-20">
+           <InteractiveHero />
         </section>
+
+        {/* Cinematic Metadata Footer */}
+        <footer className="w-full px-20 pb-12 mt-auto">
+          <div className="max-w-[1720px] mx-auto flex justify-between items-end border-t border-white/5 pt-12">
+            <div className="flex flex-col gap-4">
+              <span className="text-[9px] font-bold tracking-[0.6em] text-white/10 uppercase italic font-serif">Designed_for_Impact</span>
+              <div className="flex gap-12 text-[10px] font-bold tracking-[0.2em] text-white/30 uppercase">
+                <span>Truly_Web // Studio</span>
+                <span>Est. 2026</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-12">
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-[9px] text-white/10 tracking-[0.4em] uppercase">Time_Index</span>
+                <span className="text-[10px] text-white/40 tracking-[0.1em] font-mono uppercase">21:55:04_GMT</span>
+              </div>
+              <div className="w-[1px] h-8 bg-white/5" />
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-[9px] text-white/10 tracking-[0.4em] uppercase">System_State</span>
+                <span className="text-[10px] text-white/40 tracking-[0.1em] font-mono uppercase">Operational</span>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </main>
   );
