@@ -156,10 +156,24 @@ export const FluidParticlesBackground = ({
       maxLife: 100 + Math.random() * 50,
     }));
 
+    let isDark = document.documentElement.classList.contains("dark");
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          isDark = document.documentElement.classList.contains("dark");
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     let animationId: number;
 
     const animate = () => {
-      const isDark = document.documentElement.classList.contains("dark");
       const scheme = isDark ? COLOR_SCHEME.dark : COLOR_SCHEME.light;
 
       ctx.fillStyle = scheme.background;
@@ -213,10 +227,11 @@ export const FluidParticlesBackground = ({
 
     window.addEventListener("resize", handleResize);
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationId);
     };
-  }, [particleCount, noiseIntensity]);
+  }, [particleCount, noiseIntensity, particleSize.max, particleSize.min]);
 
   return (
     <div
