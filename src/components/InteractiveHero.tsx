@@ -55,13 +55,18 @@ export const InteractiveHero = () => {
   const maskScaleX = useTransform(xVelocity, [-3, 3], [1.1, 1.1], { clamp: false });
   const maskScaleY = useTransform(yVelocity, [-3, 3], [0.9, 0.9], { clamp: false });
 
-  // 3. 3D Parallax
+  // 3. MOTION TRANSFORMS (MUST BE TOP-LEVEL)
   const rotateX = useTransform(smoothY, [0, 1], ["4deg", "-4deg"]);
   const rotateY = useTransform(smoothX, [0, 1], ["-4deg", "4deg"]);
 
-  // 4. Transform for Mask Positioning
   const maskTranslateX = useTransform(smoothX, [0, 1], ["-50%", "50%"]);
   const maskTranslateY = useTransform(smoothY, [0, 1], ["-50%", "50%"]);
+
+  const hudLeft = useTransform(smoothX, [0, 1], ["0%", "100%"]);
+  const hudTop = useTransform(smoothY, [0, 1], ["0%", "100%"]);
+  
+  const cursorLeft = useTransform(smoothX, [0, 1], ["0%", "100%"]);
+  const cursorTop = useTransform(smoothY, [0, 1], ["0%", "100%"]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -88,7 +93,7 @@ export const InteractiveHero = () => {
                       "M445.5,275Q457,300,432,324.5Q407,349,383.5,364Q360,379,332,389.5Q304,400,276,406.5Q248,413,222.5,399.5Q197,386,174,370.5Q151,355,143.5,331.5Q136,308,119,286Q102,264,108.5,238.5Q115,213,118.5,185.5Q122,158,150.5,145.5Q179,133,205.5,119.5Q232,106,263,109Q294,112,323,122Q352,132,374,153.5Q396,175,417,196.5Q438,218,436,246.5Q434,275,445.5,275Z",
                       "M442,279.5Q447,309,425.5,331Q404,353,380.5,368.5Q357,384,332,402Q307,420,278.5,420.5Q250,421,220,412.5Q190,404,163.5,389.5Q137,375,123.5,350.5Q110,326,93.5,298.5Q77,271,84.5,242.5Q92,214,111,192Q130,170,147,143.5Q164,117,192,109.5Q220,102,248,93Q276,84,307,85.5Q338,87,364,103.5Q390,120,411.5,142Q433,164,435,193.5Q437,223,439.5,251.25Q442,279.5,442,279.5Z",
                     ]
-                    : "M442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Z" // Shrunk state
+                    : "M442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Q442,279.5,442,279.5Z" // Shrunk state
                 }}
                 transition={{
                    d: { repeat: Infinity, duration: 8, ease: "easeInOut" },
@@ -163,8 +168,8 @@ export const InteractiveHero = () => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               style={{
-                left: useTransform(smoothX, [0, 1], ["0%", "100%"]),
-                top: useTransform(smoothY, [0, 1], ["0%", "100%"]),
+                left: hudLeft,
+                top: hudTop,
                 x: 80,
                 y: 50,
               }}
@@ -198,8 +203,8 @@ export const InteractiveHero = () => {
              scale: isHovered ? 1 : 0.5 
            }}
            style={{ 
-             left: useTransform(smoothX, [0, 1], ["0%", "100%"]),
-             top: useTransform(smoothY, [0, 1], ["0%", "100%"]),
+             left: cursorLeft,
+             top: cursorTop,
              x: "-50%",
              y: "-50%"
            }}
@@ -244,7 +249,7 @@ export const InteractiveHero = () => {
                </div>
                <div className="flex flex-col gap-1">
                   <span className="text-[8px] text-white/10 uppercase tracking-[0.4em] font-bold">Revision</span>
-                  <span className="text-[10px] text-white/30 font-mono tracking-widest">v9.4.0</span>
+                  <span className="text-[10px] text-white/30 font-mono tracking-widest">v9.4.1</span>
                </div>
             </div>
           </div>
