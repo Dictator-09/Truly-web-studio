@@ -9,7 +9,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { cn } from '@/lib/utils';
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 interface NavLinkProps {
@@ -26,6 +26,9 @@ const AnimatedNavLink = ({ href, children }: NavLinkProps) => {
   useGSAP(() => {
     const trigger = triggerRef.current;
     const text = textRef.current;
+    
+    console.log("Magnetic Hull Initialized for:", children);
+    
     if (!trigger || !text) return;
 
     const xTo = gsap.quickTo(text, "x", { duration: 0.6, ease: "power3.out" });
