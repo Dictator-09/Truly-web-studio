@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-black overflow-x-hidden selection:bg-white selection:text-black">
-      <FluidParticlesBackground className="fixed inset-0">
+      <FluidParticlesBackground className="fixed inset-0 z-0 pointer-events-none" />
+      <div className="relative z-10 w-full min-h-screen">
         <Navbar />
         
         {/* Hero Section */}
@@ -55,7 +56,7 @@ export default function Home() {
 
           </div>
         </section>
-      </FluidParticlesBackground>
+      </div>
     </main>
   );
 }

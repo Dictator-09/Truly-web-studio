@@ -242,10 +242,11 @@ export const FluidParticlesBackground = ({
       )}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-
-      <div className="relative z-10 w-full h-full flex items-center justify-center">
-        {children}
-      </div>
+      {children && (
+        <div className="relative z-10 w-full h-full flex items-center justify-center">
+          {children}
+        </div>
+      )}
     </div>
   );
 };
