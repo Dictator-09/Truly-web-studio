@@ -105,7 +105,7 @@ const COLOR_SCHEME = {
   },
   dark: {
     particle: {
-      color: "rgba(255, 255, 255, 0.07)",
+      color: "rgba(255, 179, 0, 0.15)", // Premium Amber
     },
     background: "rgba(0, 0, 0, 0.12)",
   },
@@ -179,7 +179,7 @@ export const FluidParticlesBackground = ({
       ctx.fillStyle = scheme.background;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      for (const particle of particles) {
+      particles.forEach((particle, index) => {
         particle.life += 1;
         if (particle.life > particle.maxLife) {
           particle.life = 0;
@@ -208,13 +208,20 @@ export const FluidParticlesBackground = ({
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
 
-        ctx.fillStyle = isDark
-          ? `rgba(255, 255, 255, ${opacity})`
-          : `rgba(0, 0, 0, ${opacity})`;
+        if (isDark) {
+          // Particles have a 20% chance to be gold/amber
+          const isAmber = (index % 5 === 0);
+          ctx.fillStyle = isAmber 
+            ? `rgba(255, 179, 0, ${opacity * 2.5})` 
+            : `rgba(255, 255, 255, ${opacity})`;
+        } else {
+          ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+        }
+        
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
-      }
+      });
 
       animationId = requestAnimationFrame(animate);
     };

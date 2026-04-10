@@ -1,25 +1,28 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useSpring, useTransform, useMotionValue, AnimatePresence } from "framer-motion";
+import { motion, useSpring, useTransform, useMotionValue, AnimatePresence, useMotionTemplate } from "framer-motion";
 
 /**
- * MagneticButton: Re-tuned for snappiness
+ * Design Engineered Magnetic Button
+ * Philosophy: Tactile feedback compounds into a feeling of craft.
  */
 const MagneticButton = ({ children, className }: { children: React.ReactNode; className: string }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  // Snappier button springs
-  const springX = useSpring(x, { stiffness: 350, damping: 25 });
-  const springY = useSpring(y, { stiffness: 350, damping: 25 });
+  
+  // Custom easement: Starts fast, settles elegantly
+  const springConfig = { stiffness: 450, damping: 30 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
     const { clientX, clientY } = e;
     const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
-    x.set((clientX - (left + width / 2)) * 0.25);
-    y.set((clientY - (top + height / 2)) * 0.25);
+    x.set((clientX - (left + width / 2)) * 0.2);
+    y.set((clientY - (top + height / 2)) * 0.2);
   };
 
   const handleMouseLeave = () => {
@@ -31,7 +34,12 @@ const MagneticButton = ({ children, className }: { children: React.ReactNode; cl
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
+      whileTap={{ scale: 0.97 }} // Emil Principle: Buttons must feel responsive to press
+      style={{ 
+        x: springX, 
+        y: springY,
+        transition: "transform 0.2s cubic-bezier(0.23, 1, 0.32, 1)"
+      }}
       className={className}
     >
       {children}
@@ -43,21 +51,22 @@ export const InteractiveHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // 1. Snappy Mouse Tracking
+  // 1. Precise Mouse Tracking (0 to 1)
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  // High Stiffness (300) + Moderate Damping (35) = Snappy & Responsive
-  const smoothX = useSpring(mouseX, { damping: 35, stiffness: 300 });
-  const smoothY = useSpring(mouseY, { damping: 35, stiffness: 300 });
+  // Emil Principle: Match motion to mood. Snappy for technical tools.
+  const smoothX = useSpring(mouseX, { damping: 40, stiffness: 450 });
+  const smoothY = useSpring(mouseY, { damping: 40, stiffness: 450 });
 
-  // 2. Parallax
-  const rotateX = useTransform(smoothY, [0, 1], ["3deg", "-3deg"]);
-  const rotateY = useTransform(smoothX, [0, 1], ["-3deg", "3deg"]);
+  // 2. HUD & Cursor Progress (Percent mapping)
+  const posX = useTransform(smoothX, [0, 1], ["0%", "100%"]);
+  const posY = useTransform(smoothY, [0, 1], ["0%", "100%"]);
 
-  // 3. Optimized Mask Mapping (CSS Percentages)
-  const maskLeft = useTransform(smoothX, [0, 1], ["-20%", "120%"]);
-  const maskTop = useTransform(smoothY, [0, 1], ["-20%", "120%"]);
+  // 3. Hyper-Stable CSS Masking
+  // Replaces container transforms to prevent clipping at edges.
+  const maskImage = useMotionTemplate`radial-gradient(450px circle at ${posX} ${posY}, black 0%, transparent 80%)`;
+  const inverseMaskImage = useMotionTemplate`radial-gradient(450px circle at ${posX} ${posY}, transparent 0%, black 80%)`;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -66,142 +75,96 @@ export const InteractiveHero = () => {
     mouseY.set((e.clientY - rect.top) / rect.height);
   };
 
-  // High-performance SVG Blob as a data URI for the irregular shape
-  // This avoids DOM filter overhead.
-  const blobMaskUrl = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-0.8C87.1,14.6,81.7,29.2,73.5,41.4C65.3,53.6,54.4,63.4,41.9,71.8C29.4,80.2,14.7,87.2,-0.4,87.9C-15.5,88.6,-31,83.1,-44.6,75.4C-58.2,67.7,-69.9,57.8,-77.8,45.4C-85.7,33,-89.8,18.1,-90.1,2.8C-90.4,-12.4,-86.9,-27.9,-79.3,-41.2C-71.7,-54.5,-60.1,-65.6,-46.8,-73.3C-33.5,-81.1,-18.4,-85.4,-2.1,-81.8C14.2,-78.2,28.4,-66.6,44.7,-76.4Z' transform='translate(100 100)' /%3E%3C/svg%3E")`;
-
   return (
-    <div className="relative w-full h-[85vh] bg-black overflow-hidden flex items-center justify-center perspective-2000">
+    <div className="relative w-full h-[85vh] bg-black overflow-hidden flex items-center justify-center p-6 select-none">
       
       <motion.div
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ rotateX, rotateY }}
-        whileHover={{ scale: 1.012 }}
+        initial={{ scale: 0.98, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-        className="relative w-[92%] aspect-[21/9] max-w-7xl rounded-[40px] overflow-hidden border border-white/5 shadow-[0_0_120px_rgba(0,0,0,0.8)] group h-fit cursor-none"
+        className="relative w-full aspect-[3/2] max-w-5xl rounded-[40px] overflow-hidden border border-white/10 shadow-3xl group cursor-none bg-black"
       >
-        {/* Layer 0: MONOLITHIC EXTERIOR (Fixed) */}
-        <div className="absolute inset-0 z-0 scale-105">
-          <img
-            src="/hero-polished.png"
-            alt="Polished Studio"
-            className="w-full h-full object-cover grayscale opacity-60 contrast-125 saturate-50"
-          />
-        </div>
-
-        {/* Layer 1: TECHNICAL REVEAL (Snappy Irregular Mask) */}
-        <motion.div
-           animate={{ 
-             opacity: isHovered ? 1 : 0,
-             scale: isHovered ? 1 : 0.8
-           }}
-           transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-           style={{
-             maskImage: blobMaskUrl,
-             WebkitMaskImage: blobMaskUrl,
-             maskRepeat: "no-repeat",
-             maskSize: "600px 600px",
-             WebkitMaskSize: "600px 600px",
-             maskPosition: "center", // We'll move the container instead for better perf
-           }}
-           className="absolute inset-0 z-10 pointer-events-none overflow-hidden"
+        {/* Layer 0: THE DESIGN (Base Mockup) */}
+        <motion.div 
+          style={{
+            maskImage: isHovered ? inverseMaskImage : "none",
+            WebkitMaskImage: isHovered ? inverseMaskImage : "none",
+            maskRepeat: "no-repeat",
+            maskSize: "100% 100%",
+          }}
+          className="absolute inset-0 z-0"
         >
-           {/* The mask container that moves snappy */}
-           <motion.div
-             style={{
-               position: "absolute",
-               inset: "-200%", // Oversize to allow movement
-               maskImage: blobMaskUrl,
-               WebkitMaskImage: blobMaskUrl,
-               maskRepeat: "no-repeat",
-               maskSize: "700px 700px",
-               WebkitMaskSize: "700px 700px",
-               maskPosition: useTransform([smoothX, smoothY], ([x, y]) => `${(x as number) * 100}% ${(y as number) * 100}%`),
-             }}
-             className="w-full h-full"
-           >
-              <img
-                src="/hero-technical.png"
-                alt="Technical Blueprint"
-                className="w-full h-full object-cover contrast-[1.8] saturate-[1.8] scale-110"
-              />
-           </motion.div>
+          <img
+            src="/web-polished.png"
+            alt="Polished Mockup"
+            className="w-full h-full object-cover object-top opacity-70 contrast-125 transition-opacity duration-700 group-hover:opacity-85"
+          />
         </motion.div>
 
-        {/* HUD UI Layer (Snappy Position) */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              style={{ 
-                left: useTransform(smoothX, [0, 1], ["0%", "100%"]), 
-                top: useTransform(smoothY, [0, 1], ["0%", "100%"]), 
-                x: 80, 
-                y: 50 
-              }}
-              className="absolute z-50 pointer-events-none flex flex-col gap-2 font-mono"
-            >
-              <div className="flex items-center gap-3 border-l-2 border-white/30 pl-4 py-1">
-                 <span className="text-[10px] text-white/70 tracking-[0.4em] font-black uppercase whitespace-nowrap italic">
-                   System_Scan // Snappy_v9.5
-                 </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Layer 1: THE SKELETON (Reveal Wireframe) */}
+        {/* Fixed position layer with dynamic CSS mask positioning */}
+        <motion.div
+           animate={{ 
+             opacity: isHovered ? 1 : 0
+           }}
+           transition={{ 
+             duration: 0.25, 
+             ease: [0.23, 1, 0.32, 1] 
+           }}
+           style={{
+             maskImage: maskImage,
+             WebkitMaskImage: maskImage,
+             maskRepeat: "no-repeat",
+             maskSize: "100% 100%",
+           }}
+           className="absolute inset-0 z-10 pointer-events-none will-change-transform"
+        >
+          <img
+            src="/web-wireframe.png"
+            alt="Architecture Wireframe"
+            className="w-full h-full object-cover object-top grayscale contrast-[1.6] brightness-110"
+          />
+        </motion.div>
 
-        {/* Custom Snappy Cursor */}
+        {/* Floating HUD Label Removed */}
+
+
+        {/* The Technical Cursor */}
         <motion.div 
            animate={{ opacity: isHovered ? 1 : 0 }}
            style={{ 
-             left: useTransform(smoothX, [0, 1], ["0%", "100%"]), 
-             top: useTransform(smoothY, [0, 1], ["0%", "100%"]), 
+             left: posX, 
+             top: posY, 
              x: "-50%", 
              y: "-50%" 
            }}
            className="absolute z-50 pointer-events-none"
         >
-           <div className="w-10 h-10 border border-white/30 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-sm">
-              <div className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_white]" />
+           <div className="w-16 h-16 border border-amber-500/40 rounded-full flex items-center justify-center bg-amber-500/5 backdrop-blur-xl shadow-2xl">
+              <div className="w-3 h-3 bg-amber-400 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.6)]" />
               <motion.div 
-                animate={{ rotate: -360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-[-4px] border border-white/10 border-dashed rounded-full" 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-[-10px] border border-white/5 border-dashed rounded-full" 
               />
            </div>
         </motion.div>
 
-        {/* Editorial Content */}
-        <div className="absolute inset-0 z-30 flex flex-col justify-end p-28 gap-12">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-            className="flex flex-col gap-6"
-          >
-             <div className="flex items-center gap-6">
-               <span className="text-[9px] font-black tracking-[1.4em] text-white/20 uppercase italic underline decoration-white/10 underline-offset-8">Studio_Vision</span>
-               <div className="h-px w-32 bg-white/10" />
-             </div>
-             <h1 className="text-[11vw] font-medium tracking-tighter text-white font-serif italic leading-[0.7] mix-blend-difference">
-               The Architect.
-             </h1>
-          </motion.div>
+        {/* HUD Elements: Corners - Removed as per request */}
+
+
+        {/* CTA Section: Bottom Aligned */}
+        <div className="absolute inset-x-0 bottom-10 px-12 z-40 flex justify-between items-end pointer-events-none">
+          <div className="w-px h-px pointer-events-none" /> {/* Placeholder for removed CTA */}
+
           
-          <div className="flex items-center gap-16 mb-2">
-            <MagneticButton className="h-20 px-16 rounded-full glass border border-white/5 text-[11px] font-black tracking-[0.6em] uppercase text-white hover:bg-white hover:text-black transition-all duration-700 active:scale-95 group relative overflow-hidden">
-               <span className="relative z-10 italic">Begin_Audit</span>
-            </MagneticButton>
-            
-            <div className="flex flex-col gap-1 mt-4">
-               <span className="text-[8px] text-white/20 uppercase tracking-[0.4em] font-bold">Revision</span>
-               <span className="text-[10px] text-white/40 font-mono tracking-widest">v9.5.0 // SNAPPY</span>
-            </div>
+          <div className="flex flex-col items-end gap-2 text-white/10 pointer-events-none">
+             <div className="h-px w-24 bg-white/5" />
+             <span className="text-[8px] tracking-[0.6em] font-serif italic">Est. 2026 // Studio</span>
           </div>
         </div>
       </motion.div>
