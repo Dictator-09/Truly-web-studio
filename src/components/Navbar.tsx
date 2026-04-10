@@ -196,7 +196,7 @@ export const Navbar = ({
         )}
       >
 
-        <div className="max-w-[1100px] mx-auto grid grid-cols-3 items-center px-10 h-12 relative">
+        <div className="w-full max-w-5xl mx-auto grid grid-cols-3 items-center px-6 xl:px-0 h-12 relative">
           {/* Logo Section (Left) */}
           <div className="flex justify-start">
             <Logo />
