@@ -195,10 +195,10 @@ export const Navbar = ({
           "w-full backdrop-blur-[60px] pointer-events-auto relative border-b border-white/5 py-8 bg-black/40 transition-all duration-700"
         )}
       >
-
-        <div className="w-full max-w-5xl mx-auto grid grid-cols-3 items-center px-6 xl:px-0 h-12 relative">
+        <div className="w-full flex justify-center h-12">
+          <div className="w-full max-w-5xl flex items-center justify-between px-6 relative">
           {/* Logo Section (Left) */}
-          <div className="flex justify-start">
+          <div className="flex items-center">
             <Logo />
           </div>
 

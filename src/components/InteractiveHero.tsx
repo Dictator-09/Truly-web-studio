@@ -50,6 +50,7 @@ const MagneticButton = ({ children, className }: { children: React.ReactNode; cl
 export const InteractiveHero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 1. Precise Mouse Tracking (0 to 1)
   const mouseX = useMotionValue(0.5);
@@ -75,14 +76,26 @@ export const InteractiveHero = () => {
     mouseY.set((e.clientY - rect.top) / rect.height);
   };
 
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Reveal lingers for a second to feel more intentional and technical
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 1500);
+  };
+
   return (
     <div className="relative w-full h-[85vh] bg-black overflow-hidden flex items-center justify-center p-6 select-none">
       
       <motion.div
         ref={containerRef}
         onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         initial={{ scale: 0.98, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
@@ -112,7 +125,7 @@ export const InteractiveHero = () => {
              opacity: isHovered ? 1 : 0
            }}
            transition={{ 
-             duration: 0.25, 
+             duration: 0.8, 
              ease: [0.23, 1, 0.32, 1] 
            }}
            style={{
