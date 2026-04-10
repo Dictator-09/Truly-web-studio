@@ -202,19 +202,18 @@ export const Navbar = ({
             <Logo />
           </div>
 
-          {/* Navigation Links (Center) */}
-          <div className="flex justify-center items-center gap-10">
-            {navLinks.map((link) => (
-              <AnimatedNavLink key={link.label} href={link.href}>
-                {link.label}
-              </AnimatedNavLink>
-            ))}
-          </div>
+            {/* Navigation Links (Center - Locked to Viewport) */}
+            <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-10">
+              {navLinks.map((link) => (
+                <AnimatedNavLink key={link.label} href={link.href}>
+                  {link.label}
+                </AnimatedNavLink>
+              ))}
+            </div>
 
-          {/* CTA Section (Right) */}
-          <div className="flex justify-end items-center gap-8">
-            <div className="flex items-center gap-4">
-              <button className="text-[10px] font-bold text-white hover:text-white/60 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
+            {/* CTA Section (Right) */}
+            <div className="flex items-center gap-8">
+              <button className="text-[10px] font-bold text-white hover:text-amber-400 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
                 Contact
               </button>
             </div>
