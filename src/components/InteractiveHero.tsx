@@ -64,10 +64,14 @@ export const InteractiveHero = () => {
   const posX = useTransform(smoothX, [0, 1], ["0%", "100%"]);
   const posY = useTransform(smoothY, [0, 1], ["0%", "100%"]);
 
+  // Parallax Motion Maps
+  const imageX = useTransform(smoothX, [0, 1], ["-2%", "2%"]);
+  const imageY = useTransform(smoothY, [0, 1], ["-2%", "2%"]);
+
   // 3. Hyper-Stable CSS Masking
   // Replaces container transforms to prevent clipping at edges.
-  const maskImage = useMotionTemplate`radial-gradient(450px circle at ${posX} ${posY}, black 0%, transparent 80%)`;
-  const inverseMaskImage = useMotionTemplate`radial-gradient(450px circle at ${posX} ${posY}, transparent 0%, black 80%)`;
+  const maskImage = useMotionTemplate`radial-gradient(350px circle at ${posX} ${posY}, black 0%, rgba(0,0,0,0.8) 60%, transparent 80%)`;
+  const inverseMaskImage = useMotionTemplate`radial-gradient(350px circle at ${posX} ${posY}, transparent 0%, rgba(0,0,0,0.2) 60%, black 80%)`;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -108,6 +112,9 @@ export const InteractiveHero = () => {
             WebkitMaskImage: isHovered ? inverseMaskImage : "none",
             maskRepeat: "no-repeat",
             maskSize: "100% 100%",
+            scale: 1.05,
+            x: imageX,
+            y: imageY,
           }}
           className="absolute inset-0 z-0"
         >
@@ -133,6 +140,9 @@ export const InteractiveHero = () => {
              WebkitMaskImage: maskImage,
              maskRepeat: "no-repeat",
              maskSize: "100% 100%",
+             scale: 1.05,
+             x: imageX,
+             y: imageY,
            }}
            className="absolute inset-0 z-10 pointer-events-none will-change-transform"
         >
