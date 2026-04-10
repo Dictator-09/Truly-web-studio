@@ -27,9 +27,9 @@ const AnimatedNavLink = ({ href, children }: NavLinkProps) => {
   useGSAP(() => {
     const trigger = triggerRef.current;
     const text = textRef.current;
-    
+
     console.log("Magnetic Hull Initialized for:", children);
-    
+
     if (!trigger || !text) return;
 
     const xTo = gsap.quickTo(text, "x", { duration: 0.6, ease: "power3.out" });
@@ -188,32 +188,33 @@ export const Navbar = ({
   }, { scope: navRef, dependencies: [] });
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none w-full block">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
       <div
         ref={navRef}
         className={cn(
           "w-full backdrop-blur-[60px] pointer-events-auto relative border-b border-white/5 py-8 bg-black/40 transition-all duration-700"
         )}
       >
-        <div className="w-full flex justify-center h-12">
-          <div className="w-full max-w-5xl flex items-center justify-between px-6 relative">
+
+        <div className="max-w-[1100px] mx-auto grid grid-cols-3 items-center px-10 h-12 relative">
           {/* Logo Section (Left) */}
-          <div className="flex items-center">
+          <div className="flex justify-start">
             <Logo />
           </div>
 
-            {/* Navigation Links (Center - Locked to Viewport) */}
-            <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <AnimatedNavLink key={link.label} href={link.href}>
-                  {link.label}
-                </AnimatedNavLink>
-              ))}
-            </div>
+          {/* Navigation Links (Center) */}
+          <div className="flex justify-center items-center gap-10">
+            {navLinks.map((link) => (
+              <AnimatedNavLink key={link.label} href={link.href}>
+                {link.label}
+              </AnimatedNavLink>
+            ))}
+          </div>
 
-            {/* CTA Section (Right) */}
-            <div className="flex items-center gap-8">
-              <button className="text-[10px] font-bold text-white hover:text-amber-400 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
+          {/* CTA Section (Right) */}
+          <div className="flex justify-end items-center gap-8">
+            <div className="flex items-center gap-4">
+              <button className="text-[10px] font-bold text-white hover:text-white/60 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
                 Contact
               </button>
             </div>
