@@ -99,7 +99,7 @@ export const InteractiveHero = () => {
         initial={{ scale: 0.98, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-        className="relative w-full aspect-[3/2] max-w-5xl rounded-[40px] overflow-hidden border border-white/10 shadow-3xl group cursor-none bg-black"
+        className="relative w-full aspect-[3/2] max-w-5xl rounded-[40px] overflow-hidden border border-white/10 shadow-3xl group bg-black"
       >
         {/* Layer 0: THE DESIGN (Base Mockup) */}
         <motion.div 
@@ -146,26 +146,7 @@ export const InteractiveHero = () => {
         {/* Floating HUD Label Removed */}
 
 
-        {/* The Technical Cursor */}
-        <motion.div 
-           animate={{ opacity: isHovered ? 1 : 0 }}
-           style={{ 
-             left: posX, 
-             top: posY, 
-             x: "-50%", 
-             y: "-50%" 
-           }}
-           className="absolute z-50 pointer-events-none"
-        >
-           <div className="w-16 h-16 border border-amber-500/40 rounded-full flex items-center justify-center bg-amber-500/5 backdrop-blur-xl shadow-2xl">
-              <div className="w-3 h-3 bg-amber-400 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.6)]" />
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-[-10px] border border-white/5 border-dashed rounded-full" 
-              />
-           </div>
-        </motion.div>
+
 
         {/* HUD Elements: Corners - Removed as per request */}
 
