@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const ContactFooter = () => {
   return (
-    <footer className="relative w-full bg-[#050505] pt-64 pb-20 px-10 md:px-20 lg:px-32 overflow-hidden border-t border-white/[0.03]">
+    <footer className="section-divider relative w-full bg-[#050505] pt-64 pb-20 px-10 md:px-20 lg:px-32 overflow-hidden">
       
       <div className="max-w-screen-2xl mx-auto">
         
@@ -18,10 +18,12 @@ export const ContactFooter = () => {
             transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
             className="flex-1"
           >
-            <span className="text-[11px] tracking-[0.6em] text-white/20 uppercase mb-12 block">Inquiries</span>
+            <span className="text-[11px] tracking-[0.6em] text-white/40 uppercase mb-12 block font-mono">
+              [Inquiries]
+            </span>
             <h2 className="text-5xl md:text-8xl lg:text-[10rem] font-bold tracking-[-0.05em] text-white leading-[0.85] select-none">
               Let's create <br />
-              <span className="font-serif italic font-normal text-white/25">Extraordinary</span>
+              <span className="font-serif italic font-normal text-white/30">Extraordinary</span>
             </h2>
           </motion.div>
 
@@ -50,9 +52,9 @@ export const ContactFooter = () => {
         </div>
 
         {/* Global Network Strip */}
-        <div className="mt-40 grid grid-cols-1 md:grid-cols-4 gap-12 py-16 border-y border-white/[0.05]">
+        <div className="mt-40 grid grid-cols-1 md:grid-cols-4 gap-12 py-16 border-y border-white/10">
           <div className="flex flex-col gap-4">
-            <span className="text-[9px] tracking-[0.3em] text-white/10 uppercase">Studio</span>
+            <span className="text-[9px] tracking-[0.3em] text-white/10 uppercase font-mono">Studio</span>
             <span className="text-white/40 text-[13px] font-light">New Delhi, IN<br/>Vasant Kunj, DL 110070</span>
           </div>
           <div className="flex flex-col gap-4">
