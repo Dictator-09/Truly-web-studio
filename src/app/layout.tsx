@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
+import { Inter, Prata } from "next/font/google";
+import LenisProvider from "@/components/providers/lenis-provider";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import "./globals.css";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const prata = Prata({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-prata",
 });
 
 export const metadata: Metadata = {
@@ -23,8 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable} dark h-full`} suppressHydrationWarning>
-      <body className="font-inter h-full m-0 p-0 overflow-hidden" suppressHydrationWarning>{children}</body>
+    <html lang="en" className={`${inter.variable} ${prata.variable} dark h-full`} suppressHydrationWarning>
+      <body className="font-sans h-full m-0 p-0 antialiased bg-[#050505] text-white" suppressHydrationWarning>
+        <LoadingScreen />
+        <LenisProvider>
+          {children}
+        </LenisProvider>
+      </body>
     </html>
   );
 }

@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-serif: var(--font-prata), ui-serif, Georgia;
+  
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  
+  --color-accent: #ffffff;
+  --color-muted: #1a1a1a;
+  --color-border-ghost: rgba(255, 255, 255, 0.06);
+}
+
 * {
   margin: 0;
   padding: 0;

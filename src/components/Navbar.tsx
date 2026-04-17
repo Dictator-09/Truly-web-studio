@@ -66,7 +66,7 @@ const AnimatedNavLink = ({ href, children }: NavLinkProps) => {
       href={href}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex items-center h-12 overflow-visible text-[13px] font-extrabold tracking-[0.2em] font-manrope px-8"
+      className="group relative flex items-center h-12 overflow-visible text-xs font-semibold tracking-[0.1em] px-4"
     >
       <div ref={textRef} className="relative pointer-events-none">
         {/* Layer 0: Default Static */}
@@ -109,17 +109,6 @@ const AnimatedNavLink = ({ href, children }: NavLinkProps) => {
           ))}
         </div>
 
-        {/* Chromatic Interference Flicker */}
-        {isHovered && (
-          <motion.div
-            initial={{ opacity: 0.8, x: -2 }}
-            animate={{ opacity: 0, x: 2 }}
-            transition={{ duration: 0.15, repeat: 1, repeatType: "mirror" }}
-            className="absolute inset-0 flex text-red-500/30 blur-[1px] select-none pointer-events-none"
-          >
-            {children}
-          </motion.div>
-        )}
       </div>
     </Link>
   );
@@ -188,22 +177,22 @@ export const Navbar = ({
   }, { scope: navRef, dependencies: [] });
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
       <div
         ref={navRef}
         className={cn(
           "w-full backdrop-blur-[60px] pointer-events-auto relative border-b border-white/5 py-8 bg-black/40 transition-all duration-700"
         )}
       >
+        {/* Full-width nav row */}
+        <div className="w-full flex items-center h-12 relative px-10">
 
-        <div className="max-w-[1100px] mx-auto grid grid-cols-3 items-center px-10 h-12 relative">
-          {/* Logo Section (Left) */}
-          <div className="flex justify-start">
+          <div className="flex items-center ml-12">
             <Logo />
           </div>
 
-          {/* Navigation Links (Center) */}
-          <div className="flex justify-center items-center gap-10">
+          {/* Nav links — truly centered in the viewport */}
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-10">
             {navLinks.map((link) => (
               <AnimatedNavLink key={link.label} href={link.href}>
                 {link.label}
@@ -211,15 +200,11 @@ export const Navbar = ({
             ))}
           </div>
 
-          {/* CTA Section (Right) */}
-          <div className="flex justify-end items-center gap-8">
-            <div className="flex items-center gap-4">
-              <button className="text-[10px] font-bold text-white hover:text-white/60 transition-colors duration-200 uppercase tracking-[0.2em] font-manrope">
-                Contact
-              </button>
-            </div>
-          </div>
         </div>
+
+        <button className="hidden md:flex absolute right-10 top-1/2 -translate-y-1/2 items-center justify-center px-6 h-10 border border-white/20 text-[10px] font-bold text-white uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white">
+          Start Project
+        </button>
 
         {/* Mobile Menu Button */}
         <button
@@ -251,8 +236,8 @@ export const Navbar = ({
                   </Link>
                 ))}
                 <div className="pt-12 border-t border-white/10">
-                  <button className="w-full py-8 text-[14px] font-extrabold text-black bg-white uppercase tracking-[0.2em] font-manrope">
-                    Get Started
+                  <button className="w-full py-8 text-[14px] font-extrabold text-black bg-white uppercase tracking-[0.2em]">
+                    Start Project
                   </button>
                 </div>
               </div>

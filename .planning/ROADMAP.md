@@ -1,22 +1,69 @@
-# ROADMAP
+# ROADMAP — Truly Web Studio
 
-## Milestone 1: Visual Identity & Core Layout
-Goal: Establish the high-end aesthetic and cinematic navigation.
+## Milestone 1: Hero & Core Interaction ✅ (In Progress)
+Goal: Nail the premium hero interaction and site chrome.
 
-- [ ] **Phase 1: Navbar & Branding Refinement**
-  - [ ] Resize Navbar for cinematic impact (current task).
-  - [ ] Increase typography weights and logo presence.
-  - [ ] Refine desktop/mobile scaling.
-- [ ] **Phase 2: Hero Section & Typography**
-  - [ ] Add prominent "Truly Web" headline with fluid hover effects.
-  - [ ] Implement scroll-triggered entry animations.
+- [x] **Phase 1: Navbar & Branding**
+  - [x] Fixed navbar with logo left, links centered, contact top-right
+  - [x] GSAP scroll transition (condensed on scroll)
+  - [x] Animated nav links with per-character reveal
 
-## Milestone 2: Portfolio & Experience
-Goal: Showcase work and studio capabilities.
+- [/] **Phase 2: Hero Wireframe Reveal (Active)**
+  - [x] Lando-style radial mask reveal (700px sharp spotlight)
+  - [x] Dual-layer: polished site + wireframe underlay
+  - [x] Inverse dimming overlay for contrast pop
+  - [x] 1.2s hover persistence on mouse leave
+  - [ ] Add subtle parallax drift on polished layer cards on mouse move
+  - [ ] Entrance animation: cards stagger in from bottom on load
 
-- [ ] **Phase 3: Work Showcase**
-  - [ ] Grid/List of projects with premium hover previews.
-  - [ ] Smooth modal or page transitions.
-- [ ] **Phase 4: Services & Interactivity**
-  - [ ] Creative services section with custom icons/animations.
-  - [ ] Contact flow & Footer.
+---
+
+## Milestone 2: Sections & Content
+Goal: Build out the rest of the page with the same premium feel.
+
+- [ ] **Phase 3: Work / Projects Section**
+  - [ ] Masonry or fixed-grid of 4–6 project cards
+  - [ ] Hover: Project title + category slides up from bottom
+  - [ ] Click: Full-bleed lightbox or page transition
+  - [ ] Images: High-res architectural / creative work photography
+
+- [ ] **Phase 4: Services Section**
+  - [ ] Horizontal scrolling marquee or stacked accordion cards
+  - [ ] Services: Brand Identity / Web Design / Motion / Strategy
+  - [ ] Each card: icon mark + title + 1-line description
+  - [ ] Subtle background texture shift per section
+
+- [ ] **Phase 5: About Section**
+  - [ ] Split layout: left text, right image or animated element
+  - [ ] Studio story + founding year + team count
+  - [ ] Small logo lockup or emblem
+
+---
+
+## Milestone 3: Polish & Launch
+Goal: Performance, SEO, and final production polish.
+
+- [ ] **Phase 6: Footer & Contact**
+  - [ ] Email CTA form (name + email + message)
+  - [ ] Social links (GitHub, Dribbble, LinkedIn, X)
+  - [ ] Footer: copyright, nav echo, tagline
+
+- [ ] **Phase 7: Performance & SEO**
+  - [ ] Image optimization (next/image, AVIF/WebP)
+  - [ ] Lighthouse audit target: 90+ all metrics
+  - [ ] OG tags, meta description, site manifest
+  - [ ] Reduced motion media query support
+
+- [ ] **Phase 8: Micro-interactions & Final Polish**
+  - [ ] Page scroll progress indicator
+  - [ ] Smooth scroll with Lenis
+  - [ ] Loading screen / intro animation
+  - [ ] Mobile responsiveness audit
+
+---
+
+## Backlog (Deferred Ideas)
+- Custom cursor glyph with blend mode
+- Dark/light mode toggle with theme persistence
+- Blog / studio notes section
+- Case study detail pages
